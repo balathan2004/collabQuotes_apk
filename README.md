@@ -1,51 +1,25 @@
-# Welcome to your Expo app 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# CollabQuotes React Native App
 
-## Get started
+Welcome to **CollabQuotes** — your go-to app for sharing inspiring quotes, connecting with like-minded individuals, and building a growing library of wisdom. This app allows you to explore, share, and collaborate on meaningful quotes from a vibrant community, all from the convenience of your mobile device.
 
-1. Install dependencies
+## Why You'll Love CollabQuotes
 
-   ```bash
-   npm install
-   ```
+- 📝 **Share your original quotes** or your favorites from others.
+- 🌟 **Explore** a wide range of inspirational, funny, and thought-provoking quotes.
+- 🤝 **Collaborate** and engage with a vibrant community of thinkers.
+- 📚 **Create** your personal collection of favorite quotes.
 
-2. Start the app
+## Technologies Used
 
-   ```bash
-    npx expo start
-   ```
+- **React Native** - A framework for building mobile apps using React.
+- **Expo** - A toolset for developing React Native apps with ease.
+- **TypeScript** - Adds static typing to JavaScript for better development experience and code quality.
 
-In the output, you'll find options to open the app in a
+## Get Started Today
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Whether you're here to share, explore, or simply be inspired, CollabQuotes has something for everyone. Let’s build a world of meaningful words together.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-# collabQuotes_apk
+ [ Visit CollabQuotes](#https://collab-quotes.vercel.app/)  
