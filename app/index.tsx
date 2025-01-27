@@ -1,19 +1,16 @@
-import { View } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
-import { StyleSheet } from "react-native";
-import { useEffect, useState } from "react";
+import { View, Image,StyleSheet } from "react-native";
+import { useEffect } from "react";
 import { getData } from "@/components/cred";
 import { router } from "expo-router";
+const image = require("../assets/images/index.png");
 import { useUserContext } from "@/components/context/usercred_context";
 
 const ProfileScreen = () => {
-  const [loading, setLoading] = useState(true);
   const { setUserCred } = useUserContext();
 
   useEffect(() => {
     const SetContext = async () => {
       const data = await getData("login_cred");
-
       if (!data) {
         router.push("/(auth)/login");
         return;
@@ -26,25 +23,18 @@ const ProfileScreen = () => {
 
   return (
     <View style={styles.container}>
-      {loading ? <ActivityIndicator /> : null}
-      <View style={styles.horizontalLine} />
+      <Image style={styles.image} source={image}></Image>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  main_container: {},
   container: {
     display: "flex",
-    flexDirection: "column",
+    justifyContent: "center",
     alignItems: "center",
-  },
-  header: {
-    marginVertical: 50,
-    display: "flex",
-    flexDirection: "row",
-    gap: 10,
-    alignItems: "center",
+    flex: 1,
+    height: "100%",
   },
   horizontalLine: {
     width: "100%", // Adjust width as needed
@@ -56,9 +46,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginVertical: 20,
   },
-  text: {
-    fontSize: 18,
-    marginVertical: 5,
+  image: {
+    width: 250,
+    height: 250,
+    borderRadius: 10,
   },
 });
 

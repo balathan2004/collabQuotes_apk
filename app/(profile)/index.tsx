@@ -4,12 +4,16 @@ import {
   UserDataInterface,
   QuoteInterface,
 } from "@/components/interfaces";
+import { SvgUri } from "react-native-svg";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 const placeholderImage = require("../../assets/images/user.jpg");
 import moment from "moment";
-import { StyleSheet } from "react-native";
+import { styles } from "@/styles/profile";
+import { useLoadingContext } from "@/components/context/loading_context";
+import { serverUrl } from "@/constants/env";
+import { useTheme } from "@react-navigation/native";
 
 const timeHandler = (date: number) => {
   return moment(new Date(date)).fromNow();
@@ -17,27 +21,32 @@ const timeHandler = (date: number) => {
 
 const ProfileScreen = () => {
   const { userId } = useLocalSearchParams(); // Correct hook
-
   const [profileData, setProfileData] = useState<UserDataInterface | null>(
     null
   );
   const [profilePosts, setProfilePosts] = useState<QuoteInterface[]>([]);
+  const { setIsLoading } = useLoadingContext();
+  const { colors } = useTheme();
 
   useEffect(() => {
     const getProfile = async () => {
+      setIsLoading(true);
       const response = await fetch(
-        `http://localhost:3000/profile/get_profile/${userId}`,
+        `${serverUrl}/profile/get_profile/${userId}`,
         {
           method: "GET",
         }
       );
 
       const res = (await response.json()) as ProfileResponseCofig;
-
+      setIsLoading(false);
       if (res.status == 200) {
         console.log(res);
         setProfileData(res.userData);
-        setProfilePosts(res.userPosts);
+        const newUserPosts: QuoteInterface[] = res.userPosts.map((item) => {
+          return { ...item, profile_url: res.userData?.profile_url || "" };
+        });
+        setProfilePosts(newUserPosts);
       }
     };
 
@@ -47,80 +56,43 @@ const ProfileScreen = () => {
   }, [userId]);
 
   return (
-    <View style={styles.container}>
-      <View>
-
+    <ScrollView>
+      <View style={styles.container}>
+        <Text style={[styles.centerText, { color: colors.text }]}>
+          Your Profile
+        </Text>
         <View style={styles.header}>
-
-          <Image
-            source={
-              profileData?.profile_url
-                ? { uri: profileData?.profile_url }
-                : placeholderImage
-            }
-            style={{ width: 100, height: 100 }}
-          ></Image>
+          <SvgUri
+            uri={profileData?.profile_url || ""}
+            width={70}
+            height={70}
+          ></SvgUri>
           <View>
-            <Text style={styles.text}>{profileData ? `@${profileData.username}` : ""}</Text>
-            <Text style={styles.text}>{profileData ? `Email ${profileData.email}` : ""}</Text>
-            <Text style={styles.text}>
+            <Text style={[styles.text, { color: colors.text }]}>
+              {profileData ? `@${profileData.username}` : ""}
+            </Text>
+            <Text style={[styles.text, { color: colors.text }]}>
+              {profileData ? `${profileData.email}` : ""}
+            </Text>
+            <Text style={[styles.text, { color: colors.text }]}>
               {profileData
                 ? `Joined ${timeHandler(profileData.createdAt)}`
                 : ""}
             </Text>
           </View>
         </View>
-
         <View style={styles.horizontalLine} />
-
-        <View>
-          <Text style={styles.centerText}>User Posts</Text>
+        <View style={styles.content}>
+          <Text style={[styles.centerText, { color: colors.text }]}>
+            User Posts
+          </Text>
           {profilePosts.map((item) => {
-            return (
-              <QuoteList
-                data={item}
-                key={item.quoteId}
-                image={
-                  profileData?.profile_url
-                    ? profileData?.profile_url
-                    : placeholderImage
-                }
-              />
-            );
+            return <QuoteList data={item} key={item.quoteId} />;
           })}
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  main_container: {},
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  header: {
-    marginVertical: 50,
-    display: "flex",
-    flexDirection: "row",
-    gap: 10,
-    alignItems: "center",
-  },
-  horizontalLine: {
-    width: "100%", // Adjust width as needed
-    height: 1, // Thin line
-    backgroundColor: "#ccc", // Light gray color
-  },
-  centerText:{
-    textAlign:"center",
-    fontSize:24,
-    marginVertical:20
-  },text:{
-    fontSize:18,
-    marginVertical:5
-  }
-});
 
 export default ProfileScreen;

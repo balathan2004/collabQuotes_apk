@@ -1,22 +1,22 @@
-import React, { useState, useRef } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  NativeSyntheticEvent,
-  TextInputContentSizeChangeEventData,
-  TouchableOpacity,
-} from "react-native";
-import {
-  Button,
-  TextInput,
-  Provider as PaperProvider,
-} from "react-native-paper";
+import { useUserContext } from "@/components/context/usercred_context";
+import { ResponseConfig } from "@/components/interfaces";
+import React, { useState } from "react";
+import { StyleSheet, View, Text, TouchableOpacity, Alert } from "react-native";
+import { TextInput, Provider as PaperProvider } from "react-native-paper";
+import { serverUrl } from "@/constants/env";
+import { useTheme } from "@react-navigation/native";
+import { useLoadingContext } from "@/components/context/loading_context";
+import { useReplyContext } from "@/components/context/reply_context";
+import { router } from "expo-router";
 
 export default function TabTwoScreen() {
   const [quote, setQuote] = useState("");
   const [author, setAuthor] = useState("");
   const [inputHeight, setInputHeight] = useState(50);
+  const { userCred } = useUserContext();
+  const { colors } = useTheme();
+  const { setIsLoading } = useLoadingContext();
+  const { setReply } = useReplyContext();
 
   const handleInput = (label: string, text: string) => {
     if (label == "quote") {
@@ -26,17 +26,45 @@ export default function TabTwoScreen() {
     }
   };
 
-  const handleSubmit = () => {
-    if (author.trim() && quote.trim()) {
+  const handleSubmit = async () => {
+    if (author.trim() && quote.trim() && userCred) {
+      setIsLoading(true);
       console.log(author, quote);
-      // need to make new route in post data without cookies
+      const data = {
+        userId: userCred.userId,
+        quote: quote,
+        author: author,
+        username: userCred.username,
+      };
+      console.log(data);
+      const response = await fetch(`${serverUrl}/posts/create_tweet`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setIsLoading(false);
+      const res = (await response.json()) as ResponseConfig;
+      console.log(res)
+      if (res) {
+        setReply(res.message);
+        if (res.status == 200) {
+          router.push("/(tabs)");
+        }
+      }
+    } else {
+      Alert.alert("Fields missing")
+      setReply("Fields missing");
     }
   };
 
   return (
     <PaperProvider>
       <View style={styles.container}>
-        <Text style={styles.text}>Share Your Quote</Text>
+        <Text style={[styles.text, { color: colors.text }]}>
+          Share Your Quote
+        </Text>
         <TextInput
           label="Add Your Quote"
           value={quote}
@@ -82,7 +110,6 @@ const styles = StyleSheet.create({
   },
   button: {
     alignSelf: "center",
-
     paddingVertical: 10,
     paddingHorizontal: 20,
     width: "90%",

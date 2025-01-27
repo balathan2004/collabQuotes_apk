@@ -15,7 +15,10 @@ export interface QuoteInterface {
   quoteId: string;
   createdAt: number;
   username: string;
+  profile_url?:string
 }
+
+
 
 export interface UserDataInterface {
   userId: string;
