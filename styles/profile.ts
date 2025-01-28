@@ -6,9 +6,10 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     width: "90%",
     margin: "auto",
+    marginTop: 25,
   },
   header: {
-    marginVertical: 20,
+    marginVertical: 15,
     display: "flex",
     flexDirection: "row",
     gap: 10,
@@ -20,7 +21,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#ccc", // Light gray color
   },
   content: {
-    marginTop: 20,
+    marginTop: 10,
     width: "100%",
     margin: "auto",
   },

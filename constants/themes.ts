@@ -18,11 +18,11 @@ export const DarkTheme: Theme = {
   dark: true,
   colors: {
     primary: "rgb(10, 132, 255)", // Dark blue
-    background: "rgb(37, 34, 34)", // Black
+    background: "rgb(0, 0, 0)", // Black
     card: "rgb(18, 18, 18)", // Dark card
     text: "rgb(229, 229, 231)", // Light text
-    border: "rgb(39, 39, 41)", // Dark border
-    notification: "rgb(255, 69, 58)", // Red notification
+    border: "rgb(255, 255, 255)", // Dark border
+    notification: "rgb(145, 142, 142)", // Red notification
   },
   fonts, // Keep consistent font structure
 };

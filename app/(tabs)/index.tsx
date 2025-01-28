@@ -136,12 +136,12 @@ const Blog: FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop:50,
+    marginTop: 50,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "85%",
-    margin: "auto",
+    width: "100%",
+    paddingHorizontal: 20,
   },
   centerText: {
     textAlign: "center",
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    margin: "auto",
+    marginBottom: 75,
     alignItems: "center",
   },
   text: {

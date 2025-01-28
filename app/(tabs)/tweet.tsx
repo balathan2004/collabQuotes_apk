@@ -54,7 +54,7 @@ export default function TabTwoScreen() {
         }
       }
     } else {
-      Alert.alert("Fields missing")
+      //Alert.alert("Fields missing")
       setReply("Fields missing");
     }
   };

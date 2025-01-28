@@ -16,6 +16,7 @@ import { useReplyContext } from "@/components/context/reply_context";
 import { serverUrl } from "@/constants/env";
 import { useUserContext } from "@/components/context/usercred_context";
 import { styles } from "../../styles/auth";
+import { useTheme } from "@react-navigation/native";
 
 const Login: FC = () => {
   const router = useRouter();
@@ -28,6 +29,7 @@ const Login: FC = () => {
   const { setReply } = useReplyContext();
   const { setIsLoading } = useLoadingContext();
   const { setUserCred } = useUserContext();
+  const { colors } = useTheme();
 
   const handleInput =
     (key: string) =>
@@ -73,23 +75,37 @@ const Login: FC = () => {
   return (
     <View style={styles.auth_container}>
       <View>
-        <Text style={styles.title}>Collab Quotes</Text>
-        <Text style={styles.title}>Login Page</Text>
+        <Text style={[styles.title, { color: colors.text }]}>
+          Collab Quotes
+        </Text>
+        <Text style={[styles.title, { color: colors.text }]}>Login Page</Text>
         <View style={styles.input_container}>
-          <Text style={styles.label}>Enter Email</Text>
+          <Text style={[styles.label, { color: colors.text }]}>
+            Enter email
+          </Text>
           <TextInput
             onChange={handleInput("email")}
-            placeholder="Enter Email"
-            style={styles.input}
+            placeholder="Enter email"
+            style={[
+              styles.input,
+              { color: colors.text, borderColor: colors.text },
+            ]}
+            placeholderTextColor={colors.text}
             autoCapitalize="none" // To prevent auto-capitalization
           />
         </View>
         <View style={styles.input_container}>
-          <Text style={styles.label}>Enter Password</Text>
+          <Text style={[styles.label, { color: colors.text }]}>
+            Enter password
+          </Text>
           <TextInput
             onChange={handleInput("password")}
-            style={styles.input}
-            placeholder="Enter Password"
+            style={[
+              styles.input,
+              { color: colors.text, borderColor: colors.text },
+            ]}
+            placeholderTextColor={colors.text}
+            placeholder="Enter password"
             autoCapitalize="none" // To prevent auto-capitalization
           />
         </View>
@@ -98,7 +114,9 @@ const Login: FC = () => {
             router.push("/(auth)/register");
           }}
         >
-          <Text style={styles.forget_password}>Create New Account</Text>
+          <Text style={[styles.forget_password, { color: colors.text }]}>
+            Create new account
+          </Text>
         </Pressable>
 
         <View style={styles.button}>

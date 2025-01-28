@@ -5,9 +5,11 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { useTheme } from "@react-navigation/native";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const {colors}=useTheme()
 
   return (
     <Tabs
@@ -23,7 +25,8 @@ export default function TabLayout() {
         options={{
           title: "Login",
           tabBarIcon: ({ color }) => (
-            <AntDesign name="login" size={24} color="black" />
+            
+            <AntDesign name="login" size={24} color={colors.text} />
           ),
         }}
       />
@@ -33,7 +36,7 @@ export default function TabLayout() {
         options={{
           title: "Register",
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="user-edit" size={24} color="black" />
+            <FontAwesome5 name="user-edit" size={24} color={colors.text} />
           ),
         }}
       />

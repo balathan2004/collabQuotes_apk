@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.lightappdev.jsmtutorial"
     },
     "web": {
       "bundler": "metro",
@@ -33,13 +34,15 @@
           "backgroundColor": "#ffffff"
         }
       ],
-    
       "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4d204e19-85d9-48c0-bc52-27b16cbc955a"
+      }
     }
-   
   }
-  
 }

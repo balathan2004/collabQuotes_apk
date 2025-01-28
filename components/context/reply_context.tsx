@@ -16,7 +16,7 @@ interface Props {
 }
 
 const ReplyHolder: FC<Props> = ({ children }) => {
-  const [reply, setReply] = useState<replyType>("");
+  const [reply, setReply] = useState<replyType>("helo");
 
   useEffect(() => {
     if (reply) {

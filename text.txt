@@ -1,0 +1,29 @@
+# 1. Initialize a git repository (if not already initialized)
+git init # Initializes a local git repository
+
+# 2. Add all your project files to the staging area
+git add . # Adds all files to the staging area for committing
+
+# 3. Commit the changes
+git commit -m "Initial commit for EAS build" # Saves the current changes with a commit message
+
+# 4. Log in to Expo account
+eas login # Logs into your Expo account to authenticate with EAS
+
+# 5. Initialize EAS in your project
+eas init # Configures EAS for your project by creating `eas.json`
+
+# 6. Set up your project for building (native builds)
+eas build:configure # Prepares native build configuration (e.g., Android/ iOS)
+
+# 7. Commit changes after `eas.json` is created
+git add . # Adds the new `eas.json` file
+git commit -m "Configure EAS build" # Saves the changes related to EAS configuration
+
+# 8. Push code to your remote repository (if you have a GitHub repo or similar)
+git remote add origin <your-repo-url> # Links your local repository to a remote GitHub repo
+git branch -M main # Ensures the main branch is named 'main' (optional)
+git push -u origin main # Pushes the code to the remote repo
+
+# 9. Create an EAS build
+eas build --platform all # Triggers a build for both Android and iOS platforms
