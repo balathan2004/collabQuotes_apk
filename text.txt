@@ -25,5 +25,6 @@ git remote add origin <your-repo-url> # Links your local repository to a remote 
 git branch -M main # Ensures the main branch is named 'main' (optional)
 git push -u origin main # Pushes the code to the remote repo
 
+
 # 9. Create an EAS build
 eas build --platform all # Triggers a build for both Android and iOS platforms
