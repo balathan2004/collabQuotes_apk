@@ -1,3 +1,4 @@
+import QuoteList from "@/components/elements/list";
 import {
   ProfileResponseCofig,
   UserDataInterface,
@@ -7,13 +8,11 @@ import { SvgUri } from "react-native-svg";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
-const placeholderImage = require("../../assets/images/user.jpg");
 import moment from "moment";
 import { styles } from "@/styles/profile";
 import { useLoadingContext } from "@/components/context/loading_context";
 import { serverUrl } from "@/constants/env";
 import { useTheme } from "@react-navigation/native";
-import QuoteList from "@/components/elements/list";
 
 const timeHandler = (date: number) => {
   return moment(new Date(date)).fromNow();
@@ -32,7 +31,7 @@ const ProfileScreen = () => {
     const getProfile = async () => {
       setIsLoading(true);
       const response = await fetch(
-        `${serverUrl}/profile/get_profile/${userId}`,
+        `${serverUrl}/posts/get_single_posts?userId=${userId}`,
         {
           method: "GET",
         }
@@ -61,35 +60,9 @@ const ProfileScreen = () => {
         <Text style={[styles.centerText, { color: colors.text }]}>
           Your Profile
         </Text>
-        <View style={styles.header}>
-          <SvgUri
-            uri={profileData?.profile_url || ""}
-            width={70}
-            height={70}
-          ></SvgUri>
-          <View>
-            <Text style={[styles.text, { color: colors.text }]}>
-              {profileData ? `@${profileData.username}` : ""}
-            </Text>
-            <Text style={[styles.text, { color: colors.text }]}>
-              {profileData ? `${profileData.email}` : ""}
-            </Text>
-            <Text style={[styles.text, { color: colors.text }]}>
-              {profileData
-                ? `Joined ${timeHandler(profileData.createdAt)}`
-                : ""}
-            </Text>
-          </View>
-        </View>
+
         <View style={styles.horizontalLine} />
-        <View style={styles.content}>
-          <Text style={[styles.centerText, { color: colors.text }]}>
-            User Posts
-          </Text>
-          {profilePosts.map((item) => {
-            return <QuoteList data={item} key={item.quoteId} />;
-          })}
-        </View>
+        {/* { <QuoteList data={} />} */}
       </View>
     </ScrollView>
   );

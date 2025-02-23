@@ -13,6 +13,7 @@ import {
   FlatList,
   ActivityIndicator,
 } from "react-native";
+import { styles as globalStyles } from "@/styles/global";
 import { serverUrl } from "@/constants/env";
 import { debounce } from "lodash";
 import { useTheme } from "@react-navigation/native";
@@ -111,8 +112,10 @@ const Blog: FC = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={[styles.centerText, { color: colors.text }]}>Blog</Text>
+    <View style={globalStyles.container}>
+      <Text style={[globalStyles.centerText, { color: colors.text }]}>
+        Blog
+      </Text>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={quotesData}
@@ -135,19 +138,6 @@ const Blog: FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 50,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    width: "100%",
-    paddingHorizontal: 20,
-  },
-  centerText: {
-    textAlign: "center",
-    fontSize: 24,
-    marginVertical: 10,
-  },
   footer: {
     display: "flex",
     flexDirection: "row",

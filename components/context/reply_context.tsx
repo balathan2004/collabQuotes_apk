@@ -1,5 +1,13 @@
-import React, { useContext, useState, FC, ReactNode, useEffect } from "react";
-import Snackbar from "../elements/snackbar";
+import React, {
+  useContext,
+  useState,
+  FC,
+  ReactNode,
+  useEffect,
+  Suspense,
+  lazy,
+} from "react";
+const SnackbarComponent = lazy(() => import("../elements/snackbar"));
 
 export type replyType = string | null;
 export interface ReplyContextType {
@@ -16,20 +24,23 @@ interface Props {
 }
 
 const ReplyHolder: FC<Props> = ({ children }) => {
-  const [reply, setReply] = useState<replyType>("helo");
+  const [reply, setReply] = useState<replyType>("hello");
 
   useEffect(() => {
     if (reply) {
       const timeoutId = setTimeout(() => {
         setReply(null);
-      }, 10000);
+      }, 5000);
       return () => clearTimeout(timeoutId);
-    } 
+    }
   }, [reply]);
 
   return (
     <ReplyContext.Provider value={{ reply, setReply }}>
-      {reply ? <Snackbar value={reply} /> : null}
+      <Suspense fallback={null}>
+        <SnackbarComponent />
+      </Suspense>
+
       {children}
     </ReplyContext.Provider>
   );

@@ -1,12 +1,10 @@
-import QuoteList from "@/components/elements/list";
 import {
   ProfileResponseCofig,
   UserDataInterface,
   QuoteInterface,
 } from "@/components/interfaces";
 import { useEffect, useState } from "react";
-import { View, Text, Image, SafeAreaView, ScrollView } from "react-native";
-const placeholderImage = require("../../assets/images/user.jpg");
+import { View, Text,ScrollView } from "react-native";
 import moment from "moment";
 import { useUserContext } from "@/components/context/usercred_context";
 import { useLoadingContext } from "@/components/context/loading_context";
@@ -15,6 +13,7 @@ import { SvgUri } from "react-native-svg";
 import { useTheme } from "@react-navigation/native";
 import { styles } from "@/styles/profile";
 import { styles as global_style } from "@/styles/global";
+import AuthQuoteList from "@/components/elements/authQuote";
 
 const timeHandler = (date: number) => {
   return moment(new Date(date)).fromNow();
@@ -88,7 +87,7 @@ const ProfileScreen = () => {
             User Posts
           </Text>
           {profilePosts.map((item) => {
-            return <QuoteList isOwner={true} data={item} key={item.quoteId} />;
+            return <AuthQuoteList  data={item} key={item.quoteId} />;
           })}
         </View>
       </View>

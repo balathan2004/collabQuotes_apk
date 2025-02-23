@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react";
 import {
-  SafeAreaView,
   View,
   Text,
   TextInput,
@@ -15,6 +14,7 @@ import { serverUrl } from "@/constants/env";
 import { useReplyContext } from "@/components/context/reply_context";
 import { ResponseConfig } from "@/components/interfaces";
 import { useTheme } from "@react-navigation/native";
+import { useLoadingContext } from "@/components/context/loading_context";
 
 const SignUp: FC = () => {
   const [userData, setUserData] = useState({
@@ -23,6 +23,7 @@ const SignUp: FC = () => {
   });
 
   const { setReply } = useReplyContext();
+  const { isLoading, setIsLoading } = useLoadingContext();
   const { colors } = useTheme();
   const router = useRouter();
   const handleInput =
@@ -107,7 +108,11 @@ const SignUp: FC = () => {
           </Text>
         </Pressable>
         <View style={styles.button}>
-          <Button title="Signup" onPress={submitForm}></Button>
+          <Button
+            title={isLoading ? "Registering" : "Register"}
+            disabled={isLoading}
+            onPress={submitForm}
+          ></Button>
         </View>
       </View>
     </View>

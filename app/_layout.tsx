@@ -12,7 +12,7 @@ import UserCredHolder from "@/components/context/usercred_context";
 import ReplyHolder from "@/components/context/reply_context";
 import { SafeAreaView } from "react-native";
 import { styles } from "@/styles/global";
-import Snackbar from "@/components/elements/snackbar";
+import { PaperProvider } from "react-native-paper";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -34,40 +34,42 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : LightTheme}>
-      <SafeAreaView
-        style={[
-          styles.safearea,
-          {
-            backgroundColor:
-              colorScheme === "dark"
-                ? DarkTheme.colors.background
-                : LightTheme.colors.background,
-          },
-        ]}
-      >
-        <UserCredHolder>
-          <ReplyHolder>
-            <LoadingHolder>
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="(auth)" />
-                <Stack.Screen name="(tabs)" />
-                <Stack.Screen
-                  name="(profile)"
-                  options={{ headerShown: false }}
-                ></Stack.Screen>
-                <Stack.Screen name="+not-found" />
-                <Stack.Screen name="/" />
-              </Stack>
-            </LoadingHolder>
-          </ReplyHolder>
-        </UserCredHolder>
-      </SafeAreaView>
+    <PaperProvider>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : LightTheme}>
+        <SafeAreaView
+          style={[
+            styles.safearea,
+            {
+              backgroundColor:
+                colorScheme === "dark"
+                  ? DarkTheme.colors.background
+                  : LightTheme.colors.background,
+            },
+          ]}
+        >
+          <UserCredHolder>
+            <ReplyHolder>
+              <LoadingHolder>
+                <Stack screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="(auth)" />
+                  <Stack.Screen name="(tabs)" />
+                  <Stack.Screen
+                    name="(profile)"
+                    options={{ headerShown: false }}
+                  ></Stack.Screen>
+                  <Stack.Screen name="+not-found" />
+                  <Stack.Screen name="/" />
+                </Stack>
+              </LoadingHolder>
+            </ReplyHolder>
+          </UserCredHolder>
+        </SafeAreaView>
 
-      <StatusBar
-        translucent={true}
-        backgroundColor={colorScheme === "dark" ? "#000000" : "#ffffff"}
-      />
-    </ThemeProvider>
+        <StatusBar
+          translucent={true}
+          backgroundColor={colorScheme === "dark" ? "#000000" : "#ffffff"}
+        />
+      </ThemeProvider>
+    </PaperProvider>
   );
 }

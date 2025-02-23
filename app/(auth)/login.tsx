@@ -27,7 +27,7 @@ const Login: FC = () => {
   });
 
   const { setReply } = useReplyContext();
-  const { setIsLoading } = useLoadingContext();
+  const { isLoading, setIsLoading } = useLoadingContext();
   const { setUserCred } = useUserContext();
   const { colors } = useTheme();
 
@@ -120,7 +120,11 @@ const Login: FC = () => {
         </Pressable>
 
         <View style={styles.button}>
-          <Button title="Login" onPress={submitForm}></Button>
+          <Button
+            title={isLoading ? "Logging in..." : "Login"}
+            disabled={isLoading}
+            onPress={submitForm}
+          ></Button>
         </View>
       </View>
     </View>

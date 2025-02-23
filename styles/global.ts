@@ -8,27 +8,20 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-start",
     // Keeps the snackbar positioned correctly within the container
   },
-  snack_bar: {
+  snackbarContainer: {
     position: "absolute",
-    zIndex: 10,
-    top: 60, // Distance from the top of the safe area
-    width: "80%",
-    left: "10%",
-    height: 50,
-    borderRadius: 10,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "gray",
-    shadowColor: "#000", // Optional shadow for better visibility
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
+    top: 100,
+    left: 0,
+    right: 0,
+    zIndex: 1000, // Ensure it's on top
   },
-  snack_bar_text: {
-    color: "white",
+  snackbar: {
+    backgroundColor: "#333", // Snackbar background color
+    width: "95%",
+    alignSelf: "center",
+  },
+  snackbar_text: {
     textTransform: "capitalize",
-    fontSize: 16,
   },
 
   container: {
@@ -43,5 +36,10 @@ export const styles = StyleSheet.create({
     marginTop: 20,
     width: "75%",
     margin: "auto",
+  },
+  centerText: {
+    textAlign: "center",
+    fontSize: 24,
+    marginVertical: 10,
   },
 });

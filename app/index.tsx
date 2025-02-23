@@ -1,7 +1,8 @@
-import { View, Image,StyleSheet } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
 import { useEffect } from "react";
 import { getData } from "@/components/cred";
 import { router } from "expo-router";
+import { styles as globalStyles } from "@/styles/global";
 const image = require("../assets/images/index.png");
 import { useUserContext } from "@/components/context/usercred_context";
 
@@ -22,30 +23,13 @@ const ProfileScreen = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.container}>
       <Image style={styles.image} source={image}></Image>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-    height: "100%",
-  },
-  horizontalLine: {
-    width: "100%", // Adjust width as needed
-    height: 1, // Thin line
-    backgroundColor: "#ccc", // Light gray color
-  },
-  centerText: {
-    textAlign: "center",
-    fontSize: 24,
-    marginVertical: 20,
-  },
   image: {
     width: 250,
     height: 250,
