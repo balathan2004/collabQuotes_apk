@@ -24,23 +24,20 @@ interface Props {
 }
 
 const ReplyHolder: FC<Props> = ({ children }) => {
-  const [reply, setReply] = useState<replyType>("hello");
+  const [reply, setReply] = useState<replyType>(null);
 
   useEffect(() => {
     if (reply) {
       const timeoutId = setTimeout(() => {
         setReply(null);
-      }, 5000);
+      }, 10000);
       return () => clearTimeout(timeoutId);
     }
   }, [reply]);
 
   return (
     <ReplyContext.Provider value={{ reply, setReply }}>
-      <Suspense fallback={null}>
-        <SnackbarComponent />
-      </Suspense>
-
+      <SnackbarComponent />
       {children}
     </ReplyContext.Provider>
   );

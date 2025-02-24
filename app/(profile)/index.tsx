@@ -4,7 +4,7 @@ import {
   QuoteInterface,
 } from "@/components/interfaces";
 import { SvgUri } from "react-native-svg";
-import { useLocalSearchParams } from "expo-router";
+import { Tabs, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 const placeholderImage = require("../../assets/images/user.jpg");
@@ -57,6 +57,13 @@ const ProfileScreen = () => {
 
   return (
     <ScrollView>
+      <Tabs.Screen
+        options={{
+          headerTitle: profileData
+            ? `${profileData?.username}'s Profile`
+            : "User Profile",
+        }}
+      />
       <View style={styles.container}>
         <Text style={[styles.centerText, { color: colors.text }]}>
           Your Profile

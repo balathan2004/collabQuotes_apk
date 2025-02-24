@@ -4,7 +4,7 @@ import {
   QuoteInterface,
 } from "@/components/interfaces";
 import { useEffect, useState } from "react";
-import { View, Text,ScrollView } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import moment from "moment";
 import { useUserContext } from "@/components/context/usercred_context";
 import { useLoadingContext } from "@/components/context/loading_context";
@@ -26,6 +26,7 @@ const ProfileScreen = () => {
   const [profileData, setProfileData] = useState<UserDataInterface | null>(
     null
   );
+
   const [profilePosts, setProfilePosts] = useState<QuoteInterface[]>([]);
   const { setIsLoading } = useLoadingContext();
   useEffect(() => {
@@ -80,14 +81,13 @@ const ProfileScreen = () => {
             </Text>
           </View>
         </View>
-
         <View style={styles.horizontalLine} />
         <View style={styles.content}>
           <Text style={[styles.centerText, { color: colors.text }]}>
             User Posts
           </Text>
           {profilePosts.map((item) => {
-            return <AuthQuoteList  data={item} key={item.quoteId} />;
+            return <AuthQuoteList data={item} key={item.quoteId} />;
           })}
         </View>
       </View>

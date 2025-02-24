@@ -20,11 +20,17 @@ export default function TabTwoScreen() {
   const { setReply } = useReplyContext();
 
   const handleInput = (label: string, text: string) => {
-    if (label == "quote") {
+    if (label === "quote" && text.length <= 280) {
       setQuote(text);
-    } else if (label == "author") {
+    } else if (label === "author" && text.length <= 50) {
       setAuthor(text);
     }
+  };
+
+  const handleResetState = () => {
+    setQuote("");
+    setAuthor("");
+    setInputHeight(50);
   };
 
   const handleSubmit = async () => {
@@ -51,11 +57,11 @@ export default function TabTwoScreen() {
       if (res) {
         setReply(res.message);
         if (res.status == 200) {
+          handleResetState();
           router.push("/(tabs)");
         }
       }
     } else {
-      //Alert.alert("Fields missing")
       setReply("Fields missing");
     }
   };
@@ -65,23 +71,34 @@ export default function TabTwoScreen() {
       <Text style={[styles.text, { color: colors.text }]}>
         Share Your Quote
       </Text>
-      <TextInput
-        label="Add Your Quote"
-        value={quote}
-        onChangeText={(text) => handleInput("quote", text)}
-        mode="outlined"
-        multiline
-        onContentSizeChange={(event) =>
-          setInputHeight(event.nativeEvent.contentSize.height)
-        }
-        style={[styles.input, { height: Math.max(50, inputHeight) }]}
-      />
-      <TextInput
-        value={author}
-        onChangeText={(text) => handleInput("author", text)}
-        style={styles.input}
-        placeholder="Enter Author"
-      />
+      <View style={styles.inputContainer}>
+        <TextInput
+          label="Add Your Quote"
+          value={quote}
+          onChangeText={(text) => handleInput("quote", text)}
+          mode="outlined"
+          multiline
+          onContentSizeChange={(event) =>
+            setInputHeight(event.nativeEvent.contentSize.height)
+          }
+          style={[styles.input, { height: Math.max(50, inputHeight) }]}
+        />
+        <Text style={[styles.labelCount, { color: colors.text }]}>
+          {quote.length}/280 characters
+        </Text>
+      </View>
+
+      <View style={styles.inputContainer}>
+        <TextInput
+          value={author}
+          onChangeText={(text) => handleInput("author", text)}
+          style={styles.input}
+          placeholder="Enter Author"
+        />
+        <Text style={[styles.labelCount, { color: colors.text }]}>
+          {author.length}/50 characters
+        </Text>
+      </View>
       <View style={{ width: "90%" }}>
         <Button
           title={isLoading ? "Submitting" : "Submit"}

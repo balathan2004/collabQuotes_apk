@@ -16,6 +16,7 @@ export default function Layout() {
         headerShown: false,
         BarActiveTintColor: "tomato",
         tabBarInactiveTintColor: "gray",
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           backgroundColor: colorTheme === "dark" ? "#000000" : "#ffffff",
           height: 60,

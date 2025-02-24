@@ -1,28 +1,31 @@
 import { Theme } from "@react-navigation/native"; // Import Theme type
 import { fonts } from "./../node_modules/@react-navigation/native/src/theming/fonts"; // Import fonts or define your own fonts object
+import Colors from "./Colors";
+const tintColorLight = "#0a7ea4";
+const tintColorDark = "#fff";
 
 export const LightTheme: Theme = {
   dark: false,
   colors: {
-    primary: "rgb(0, 122, 255)", // Light blue
-    background: "rgb(242, 242, 242)", // Light gray
-    card: "rgb(255, 255, 255)", // White
-    text: "rgb(28, 28, 30)", // Dark text
-    border: "rgb(216, 216, 216)", // Light border
-    notification: "rgb(255, 59, 48)", // Red notification
+    card: Colors.light.card,
+    primary: Colors.light.primary,
+    background: Colors.light.background,
+    text: Colors.light.text,
+    border: Colors.light.border,
+    notification: "rgb(255, 59, 48)",
   },
-  fonts, // Keep consistent font structure
+  fonts,
 };
 
 export const DarkTheme: Theme = {
   dark: true,
   colors: {
-    primary: "rgb(10, 132, 255)", // Dark blue
-    background: "rgb(0, 0, 0)", // Black
-    card: "rgb(18, 18, 18)", // Dark card
-    text: "rgb(229, 229, 231)", // Light text
-    border: "rgb(255, 255, 255)", // Dark border
-    notification: "rgb(145, 142, 142)", // Red notification
+    card: Colors.dark.card,
+    primary: Colors.dark.primary,
+    background: Colors.dark.background,
+    text: Colors.dark.text,
+    border: Colors.dark.border,
+    notification: "rgb(145, 142, 142)",
   },
-  fonts, // Keep consistent font structure
+  fonts,
 };

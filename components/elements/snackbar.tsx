@@ -1,8 +1,5 @@
 import React from "react";
-import { lazy, Suspense } from "react";
-const Snackbar = lazy(() =>
-  import("react-native-paper").then((mod) => ({ default: mod.Snackbar }))
-);
+import { Snackbar } from "react-native-paper";
 import { Text, View } from "react-native";
 import { styles } from "@/styles/global";
 import { useReplyContext } from "../context/reply_context";
@@ -16,18 +13,16 @@ export default function SnackbarComponent() {
     setReply(null);
   };
   return (
-    <View style={styles.snackbarContainer}>
+    <View style={[styles.snackbarContainer]}>
       <Snackbar
         visible={!!reply}
         onDismiss={onDismissSnackBar}
         action={{
           label: "Undo",
-          onPress: () => {
-            // Do something
-          },
+          onPress: onDismissSnackBar,
         }}
       >
-        <Text style={[styles.snackbar_text]}>
+        <Text style={[styles.snackbar_text, { color: colors.background }]}>
           {reply}
         </Text>
       </Snackbar>

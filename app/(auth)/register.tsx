@@ -33,7 +33,7 @@ const SignUp: FC = () => {
 
       setUserData((prevData) => ({
         ...prevData,
-        [key]: inputValue,
+        [key]: inputValue.trim(),
       }));
     };
 

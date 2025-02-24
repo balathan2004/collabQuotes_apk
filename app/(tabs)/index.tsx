@@ -25,15 +25,18 @@ const Blog: FC = () => {
   const [loading, setLoading] = useState(false);
   const [startFrom, setStartFrom] = useState(0);
   const [hasMorePosts, setHasMorePosts] = useState(true);
+  const [refresh, setRefresh] = useState(false);
   const { colors } = useTheme();
   const { setIsLoading } = useLoadingContext();
 
   const onRefresh = async () => {
     setLoading(true); // Set loading to true when refreshing starts
+    setRefresh(true);
     setStartFrom(0); // Reset pagination
     setQuotesData([]); // Clear previous data
     await fetchMorePosts({ refreshValue: 0 }); // Fetch the first page
     setLoading(false); // Set loading to false once fetching is done
+    setRefresh(false);
   };
 
   interface RefreshValue {
@@ -78,7 +81,6 @@ const Blog: FC = () => {
 
   const debouncedFunction = debounce(async () => {
     await fetchMorePosts({ refreshValue: 1 });
-
     setLoading(false);
   }, 2000);
 
@@ -127,7 +129,7 @@ const Blog: FC = () => {
         nestedScrollEnabled={true}
         refreshControl={
           <RefreshControl
-            refreshing={loading} // Set to true while loading
+            refreshing={refresh} // Set to true while loading
             onRefresh={onRefresh}
             colors={[colors.primary]} // Customize spinner color
           />

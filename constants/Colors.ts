@@ -8,17 +8,20 @@ const tintColorDark = "#fff";
 
 export default {
   light: {
-    text: "#000",
-    background: "#dcd3d1",
-    tint: tintColorLight,
-    tabIconDefault: "#ccc",
-    tabIconSelected: tintColorLight,
+    primary: "rgb(0, 122, 255)", // Light blue
+    background: "rgb(242, 242, 242)", // Light gray
+    card: "rgb(255, 255, 255)", // White
+    text: "rgb(28, 28, 30)", // Dark text
+    border: "rgb(216, 216, 216)", // Light border
+    notification: "rgb(255, 59, 48)",
+
   },
   dark: {
-    text: "#000",
-    background: "#dcd3d1",
-    tint: tintColorDark,
-    tabIconDefault: "#ccc",
-    tabIconSelected: tintColorDark,
+    primary: "rgb(10, 132, 255)", // Dark blue
+    background: "rgb(0, 0, 0)", // Black
+    card: "rgb(18, 18, 18)", // Dark card
+    text: "rgb(229, 229, 231)", // Light text
+    border: "rgb(255, 255, 255)", // Dark border
+    notification: "rgb(145, 142, 142)",
   },
 };

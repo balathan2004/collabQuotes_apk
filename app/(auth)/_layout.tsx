@@ -1,22 +1,21 @@
 import { Tabs } from "expo-router";
 import React from "react";
-import { Platform } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import { Colors } from "@/constants/Colors";
+import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { useTheme } from "@react-navigation/native";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const {colors}=useTheme()
+  const { colors } = useTheme();
 
   return (
     <Tabs
       screenOptions={({ route }) => ({
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].border,
         headerShown: false,
-        // Dynamically hide the tab bar for specific screens
+        tabBarHideOnKeyboard: true,
         tabBarStyle: route.name === "wait_verify" ? { display: "none" } : {},
       })}
     >
@@ -25,7 +24,6 @@ export default function TabLayout() {
         options={{
           title: "Login",
           tabBarIcon: ({ color }) => (
-            
             <AntDesign name="login" size={24} color={colors.text} />
           ),
         }}

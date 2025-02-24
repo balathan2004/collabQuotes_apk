@@ -16,7 +16,6 @@ export const styles = StyleSheet.create({
     zIndex: 1000, // Ensure it's on top
   },
   snackbar: {
-    backgroundColor: "#333", // Snackbar background color
     width: "95%",
     alignSelf: "center",
   },
