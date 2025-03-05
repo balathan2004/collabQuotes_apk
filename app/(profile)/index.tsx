@@ -66,7 +66,7 @@ const ProfileScreen = () => {
       />
       <View style={styles.container}>
         <Text style={[styles.centerText, { color: colors.text }]}>
-          Your Profile
+          User Profile
         </Text>
         <View style={styles.header}>
           <SvgUri

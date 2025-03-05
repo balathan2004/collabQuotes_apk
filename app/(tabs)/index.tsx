@@ -91,9 +91,14 @@ const Blog: FC = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
-    fetchMorePosts({ refreshValue: 1 });
-    setIsLoading(false);
+    const fetchData = async () => {
+      setIsLoading(true);
+      //await
+        fetchMorePosts({ refreshValue: 1 }); // Waits for posts to load
+      setIsLoading(false);
+    };
+
+    fetchData();
   }, []);
 
   const renderFooter = () => {

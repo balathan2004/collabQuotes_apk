@@ -38,21 +38,32 @@ const SignUp: FC = () => {
     };
 
   const submitForm = async () => {
-    if (userData.email && userData.password) {
-      const response = await fetch(`${serverUrl}/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+    if (!userData.email || !userData.password) {
+      setReply("Email and password are required!");
+      return;
+    }
 
-        body: JSON.stringify(userData),
-      });
-      const res = (await response.json()) as ResponseConfig;
-      if (res) {
-        setReply(res.message);
-        if (res.status == 200) {
-          router.push("/(auth)/wait_verify");
-        }
+    if (userData.password.length < 6) {
+      setReply("Password must be at least 6 characters long.");
+      return;
+    }
+
+    setIsLoading(true);
+
+    const response = await fetch(`${serverUrl}/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(userData),
+    });
+    const res = (await response.json()) as ResponseConfig;
+    setIsLoading(false);
+    if (res) {
+      setReply(res.message);
+      if (res.status == 200) {
+        router.push("/(auth)/wait_verify");
       }
     }
   };

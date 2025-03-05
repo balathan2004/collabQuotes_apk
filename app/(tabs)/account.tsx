@@ -84,7 +84,7 @@ const ProfileScreen = () => {
         <View style={styles.horizontalLine} />
         <View style={styles.content}>
           <Text style={[styles.centerText, { color: colors.text }]}>
-            User Posts
+            Your Posts
           </Text>
           {profilePosts.map((item) => {
             return <AuthQuoteList data={item} key={item.quoteId} />;

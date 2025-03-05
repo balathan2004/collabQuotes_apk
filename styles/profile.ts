@@ -28,6 +28,7 @@ export const styles = StyleSheet.create({
   centerText: {
     textAlign: "center",
     fontSize: 24,
+    marginBottom: 20,
   },
   text: {
     fontSize: 18,

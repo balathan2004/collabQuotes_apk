@@ -4,7 +4,6 @@ import React, {
   FC,
   ReactNode,
   useEffect,
-  Suspense,
   lazy,
 } from "react";
 const SnackbarComponent = lazy(() => import("../elements/snackbar"));
@@ -30,7 +29,7 @@ const ReplyHolder: FC<Props> = ({ children }) => {
     if (reply) {
       const timeoutId = setTimeout(() => {
         setReply(null);
-      }, 10000);
+      }, 3000);
       return () => clearTimeout(timeoutId);
     }
   }, [reply]);
