@@ -1,18 +1,20 @@
 import { ThemeProvider } from "@react-navigation/native";
 import { DarkTheme, LightTheme } from "@/constants/themes";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import LoadingHolder from "@/components/context/loading_context";
-import UserCredHolder from "@/components/context/usercred_context";
-import ReplyHolder from "@/components/context/reply_context";
 import { SafeAreaView } from "react-native";
 import { styles } from "@/styles/global";
 import { PaperProvider } from "react-native-paper";
+import NewtworkWrapper from "@/components/context/network_context";
+import { Provider } from "react-redux";
+import { store } from "@/components/redux/store";
+import Toast from "react-native-toast-message";
+import Router from "@/components/router.tsx/router";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -36,39 +38,31 @@ export default function RootLayout() {
   return (
     <PaperProvider>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : LightTheme}>
-        <SafeAreaView
-          style={[
-            styles.safearea,
-            {
-              backgroundColor:
-                colorScheme === "dark"
-                  ? DarkTheme.colors.background
-                  : LightTheme.colors.background,
-            },
-          ]}
-        >
-          <UserCredHolder>
-            <ReplyHolder>
-              <LoadingHolder>
-                <Stack screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="(auth)" />
-                  <Stack.Screen name="(tabs)" />
-                  <Stack.Screen
-                    name="(profile)"
-                    options={{ headerShown: false }}
-                  ></Stack.Screen>
-                  <Stack.Screen name="+not-found" />
-                  <Stack.Screen name="/" />
-                </Stack>
-              </LoadingHolder>
-            </ReplyHolder>
-          </UserCredHolder>
-        </SafeAreaView>
+        <Provider store={store}>
+          <SafeAreaView
+            style={[
+              styles.safearea,
+              {
+                backgroundColor:
+                  colorScheme === "dark"
+                    ? DarkTheme.colors.background
+                    : LightTheme.colors.background,
+              },
+            ]}
+          >
+            <LoadingHolder>
+              <NewtworkWrapper>
+                <Router />
+              </NewtworkWrapper>
+            </LoadingHolder>
+          </SafeAreaView>
 
-        <StatusBar
-          translucent={true}
-          backgroundColor={colorScheme === "dark" ? "#000000" : "#ffffff"}
-        />
+          <StatusBar
+            translucent={true}
+            backgroundColor={colorScheme === "dark" ? "#000000" : "#ffffff"}
+          />
+        </Provider>
+        <Toast />
       </ThemeProvider>
     </PaperProvider>
   );

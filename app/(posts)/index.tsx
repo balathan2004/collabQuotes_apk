@@ -1,10 +1,8 @@
-import QuoteList from "@/components/elements/list";
 import {
   ProfileResponseCofig,
   UserDataInterface,
   QuoteInterface,
 } from "@/components/interfaces";
-import { SvgUri } from "react-native-svg";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
@@ -14,9 +12,7 @@ import { useLoadingContext } from "@/components/context/loading_context";
 import { serverUrl } from "@/constants/env";
 import { useTheme } from "@react-navigation/native";
 
-const timeHandler = (date: number) => {
-  return moment(new Date(date)).fromNow();
-};
+
 
 const ProfileScreen = () => {
   const { userId } = useLocalSearchParams(); // Correct hook

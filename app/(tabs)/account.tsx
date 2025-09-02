@@ -1,59 +1,22 @@
-import {
-  ProfileResponseCofig,
-  UserDataInterface,
-  QuoteInterface,
-} from "@/components/interfaces";
-import { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
-import moment from "moment";
-import { useUserContext } from "@/components/context/usercred_context";
-import { useLoadingContext } from "@/components/context/loading_context";
-import { serverUrl } from "@/constants/env";
-import { SvgUri } from "react-native-svg";
 import { useTheme } from "@react-navigation/native";
 import { styles } from "@/styles/profile";
 import { styles as global_style } from "@/styles/global";
 import AuthQuoteList from "@/components/elements/authQuote";
+import { useAuth } from "@/components/redux/authSlice";
+import { useGetUserQuotesQuery } from "@/components/redux/apis/profileApi";
+import ProfileCard from "@/components/elements/ProfileCard";
 
-const timeHandler = (date: number) => {
-  return moment(new Date(date)).fromNow();
-};
 
 const ProfileScreen = () => {
-  const { userCred } = useUserContext();
   const { colors } = useTheme();
 
-  const [profileData, setProfileData] = useState<UserDataInterface | null>(
-    null
-  );
+  const { data: userCred } = useAuth();
 
-  const [profilePosts, setProfilePosts] = useState<QuoteInterface[]>([]);
-  const { setIsLoading } = useLoadingContext();
-  useEffect(() => {
-    const getProfile = async () => {
-      setIsLoading(true);
-      const response = await fetch(
-        `${serverUrl}/profile/get_profile/${userCred?.userId}`,
-        {
-          method: "GET",
-        }
-      );
+ 
+  const {data:profilePosts,isLoading}=useGetUserQuotesQuery()
 
-      const res = (await response.json()) as ProfileResponseCofig;
-      setIsLoading(false);
-      if (res.status == 200) {
-        setProfileData(res.userData);
-        const newUserPosts: QuoteInterface[] = res.userPosts.map((item) => {
-          return { ...item, profile_url: res.userData?.profile_url || "" };
-        });
-        setProfilePosts(newUserPosts);
-      }
-    };
-
-    if (userCred && userCred.userId) {
-      getProfile();
-    }
-  }, [userCred]);
+ 
 
   return (
     <ScrollView>
@@ -61,32 +24,13 @@ const ProfileScreen = () => {
         <Text style={[styles.centerText, { color: colors.text }]}>
           Your Profile
         </Text>
-        <View style={styles.header}>
-          <SvgUri
-            uri={profileData?.profile_url || ""}
-            width={70}
-            height={70}
-          ></SvgUri>
-          <View>
-            <Text style={[styles.text, { color: colors.text }]}>
-              {profileData ? `@${profileData.username}` : ""}
-            </Text>
-            <Text style={[styles.text, { color: colors.text }]}>
-              {profileData ? `${profileData.email}` : ""}
-            </Text>
-            <Text style={[styles.text, { color: colors.text }]}>
-              {profileData
-                ? `Joined ${timeHandler(profileData.createdAt)}`
-                : ""}
-            </Text>
-          </View>
-        </View>
+       {profilePosts?.userData&&<ProfileCard data={profilePosts?.userData} />} 
         <View style={styles.horizontalLine} />
         <View style={styles.content}>
           <Text style={[styles.centerText, { color: colors.text }]}>
             Your Posts
           </Text>
-          {profilePosts.map((item) => {
+          {profilePosts?.userPosts.map((item) => {
             return <AuthQuoteList data={item} key={item.quoteId} />;
           })}
         </View>

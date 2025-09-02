@@ -8,7 +8,6 @@ import { useTheme } from "@react-navigation/native";
 import { styles } from "@/styles/lists";
 import { serverUrl } from "@/constants/env";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { useReplyContext } from "../context/reply_context";
 
 interface Props {
   data: QuoteInterface;
@@ -16,7 +15,7 @@ interface Props {
 }
 
 const AuthQuoteList: FC<Props> = ({ data }) => {
-  const { setReply } = useReplyContext();
+
 
   const timeHandler = (date: number) => {
     return moment(new Date(date)).fromNow();
@@ -43,20 +42,22 @@ const AuthQuoteList: FC<Props> = ({ data }) => {
     );
   };
 
-  const sendDeleteReq = async () => {
-    const body = { userId: data.userId, quoteId: data.quoteId };
-    console.log(body)
+   const sendDeleteReq = async () => {}
 
-    const response = await fetch(`${serverUrl}/posts/delete_post`, {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const res = (await response.json()) as ResponseConfig;
-    setReply(res.message);
-  };
+  // const sendDeleteReq = async () => {
+  //   const body = { userId: data.userId, quoteId: data.quoteId };
+  //   console.log(body)
+
+  //   const response = await fetch(`${serverUrl}/posts/delete_post`, {
+  //     method: "POST",
+  //     body: JSON.stringify(body),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  //   const res = (await response.json()) as ResponseConfig;
+  //   setReply(res.message);
+  // };
 
   const deletePost = async () => {
     showConfirmationDialog();

@@ -1,26 +1,28 @@
 import { View, Image, StyleSheet } from "react-native";
 import { useEffect } from "react";
-import { getData } from "@/components/cred";
+import { getRefreshToken } from "@/components/cred";
 import { router } from "expo-router";
 import { styles as globalStyles } from "@/styles/global";
+import { useLazyRefreshTokenQuery, useRefreshTokenQuery } from "@/components/redux/apis/authApi";
 const image = require("../assets/images/index.png");
-import { useUserContext } from "@/components/context/usercred_context";
 
 const ProfileScreen = () => {
-  const { setUserCred } = useUserContext();
-
   useEffect(() => {
     const SetContext = async () => {
-      const data = await getData("login_cred");
+      const data = await getRefreshToken("refreshToken");
+
+      console.log("data", { data });
       if (!data) {
         router.push("/(auth)/login");
         return;
       }
-      setUserCred(data);
+      await refreshToken(data)
       router.push("/(tabs)");
     };
     SetContext();
   }, []);
+
+  const [refreshToken]=useLazyRefreshTokenQuery()
 
   return (
     <View style={globalStyles.container}>

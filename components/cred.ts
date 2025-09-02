@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { UserDataInterface } from "./interfaces";
 
-const storeData = async (key: string, value: UserDataInterface) => {
+const storeRefreshToken = async (key: string, value: string) => {
   try {
     const jsonValue = JSON.stringify(value);
     await AsyncStorage.setItem(key, jsonValue);
@@ -10,15 +9,13 @@ const storeData = async (key: string, value: UserDataInterface) => {
   }
 };
 
-const getData = async (key: string): Promise<UserDataInterface | null> => {
+const getRefreshToken = async (key: string): Promise<string | null> => {
   try {
     const jsonValue = await AsyncStorage.getItem(key);
-    return jsonValue != null
-      ? (JSON.parse(jsonValue) as UserDataInterface)
-      : null;
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
   } catch (e) {
     return null;
   }
 };
 
-export { storeData, getData };
+export { storeRefreshToken, getRefreshToken };

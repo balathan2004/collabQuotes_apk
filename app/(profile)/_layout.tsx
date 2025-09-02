@@ -2,7 +2,6 @@ import { router, Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
 import { useTheme } from "@react-navigation/native";
-import { Pressable, TouchableOpacity } from "react-native";
 export default function Layout() {
   const colors = useTheme();
 

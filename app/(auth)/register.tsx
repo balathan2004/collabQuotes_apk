@@ -10,9 +10,6 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { styles } from "../../styles/auth";
-import { serverUrl } from "@/constants/env";
-import { useReplyContext } from "@/components/context/reply_context";
-import { ResponseConfig } from "@/components/interfaces";
 import { useTheme } from "@react-navigation/native";
 import { useLoadingContext } from "@/components/context/loading_context";
 
@@ -22,7 +19,6 @@ const SignUp: FC = () => {
     password: "",
   });
 
-  const { setReply } = useReplyContext();
   const { isLoading, setIsLoading } = useLoadingContext();
   const { colors } = useTheme();
   const router = useRouter();
@@ -37,36 +33,39 @@ const SignUp: FC = () => {
       }));
     };
 
-  const submitForm = async () => {
-    if (!userData.email || !userData.password) {
-      setReply("Email and password are required!");
-      return;
-    }
+    const submitForm=()=>{}
 
-    if (userData.password.length < 6) {
-      setReply("Password must be at least 6 characters long.");
-      return;
-    }
 
-    setIsLoading(true);
+  // const submitForm = async () => {
+  //   if (!userData.email || !userData.password) {
+  //     setReply("Email and password are required!");
+  //     return;
+  //   }
 
-    const response = await fetch(`${serverUrl}/auth/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+  //   if (userData.password.length < 6) {
+  //     setReply("Password must be at least 6 characters long.");
+  //     return;
+  //   }
 
-      body: JSON.stringify(userData),
-    });
-    const res = (await response.json()) as ResponseConfig;
-    setIsLoading(false);
-    if (res) {
-      setReply(res.message);
-      if (res.status == 200) {
-        router.push("/(auth)/wait_verify");
-      }
-    }
-  };
+  //   setIsLoading(true);
+
+  //   const response = await fetch(`${serverUrl}/auth/register`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+
+  //     body: JSON.stringify(userData),
+  //   });
+  //   const res = (await response.json()) as ResponseConfig;
+  //   setIsLoading(false);
+  //   if (res) {
+  //     setReply(res.message);
+  //     if (res.status == 200) {
+  //       router.push("/(auth)/wait_verify");
+  //     }
+  //   }
+  // };
 
   return (
     <View style={styles.auth_container}>

@@ -9,14 +9,10 @@ import {
   Pressable,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { storeData } from "@/components/cred";
-import { AuthResponseConfig } from "@/components/interfaces";
-import { useLoadingContext } from "@/components/context/loading_context";
-import { useReplyContext } from "@/components/context/reply_context";
-import { serverUrl } from "@/constants/env";
-import { useUserContext } from "@/components/context/usercred_context";
 import { styles } from "../../styles/auth";
 import { useTheme } from "@react-navigation/native";
+import { useLoginMutation } from "@/components/redux/apis/authApi";
+import Toast from "react-native-toast-message";
 
 const Login: FC = () => {
   const router = useRouter();
@@ -26,10 +22,9 @@ const Login: FC = () => {
     password: "",
   });
 
-  const { setReply } = useReplyContext();
-  const { isLoading, setIsLoading } = useLoadingContext();
-  const { setUserCred } = useUserContext();
   const { colors } = useTheme();
+
+  const [login, { isLoading: isLoggingIn }] = useLoginMutation();
 
   const handleInput =
     (key: string) =>
@@ -43,35 +38,21 @@ const Login: FC = () => {
     };
 
   const submitForm = async () => {
-    if (userData.email && userData.password) {
-      setIsLoading(true);
-      const response = await fetch(`${serverUrl}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+    const { email, password } = userData;
 
-        body: JSON.stringify(userData),
+    if (!email || !password) return;
+
+    login({ email, password })
+      .unwrap()
+      .then((res) => {
+        console.log(res);
+        Toast.show({ type: "success", text1: res.message });
+      })
+      .catch((err) => {
+         console.log(err);
+        Toast.show({ type: "error", text1: err.message || err.data.message });
       });
-      const res = (await response.json()) as AuthResponseConfig;
-      setIsLoading(false);
-      setReply(res.message);
-      if (res) {
-        if (res.status == 200) {
-          await storeData("login_cred", res.credentials)
-            .then(() => {
-              console.log("value stored");
-              setUserCred(res.credentials);
-            })
-            .catch((err) => console.log("error saving"));
-          router.push("/(tabs)");
-        }
-      }
-    } else {
-      setReply("field missing");
-    }
   };
-
   return (
     <View style={styles.auth_container}>
       <View>
@@ -121,8 +102,8 @@ const Login: FC = () => {
 
         <View style={styles.button}>
           <Button
-            title={isLoading ? "Logging in..." : "Login"}
-            disabled={isLoading}
+            title={isLoggingIn ? "Logging in..." : "Login"}
+            disabled={isLoggingIn}
             onPress={submitForm}
           ></Button>
         </View>

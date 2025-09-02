@@ -1,6 +1,5 @@
 import {
   QuotesInterfaceWithProfile,
-  PostResponseConfig,
 } from "@/components/interfaces";
 import React, { FC, useEffect, useState } from "react";
 import QuoteList from "@/components/elements/list";
@@ -14,14 +13,22 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { styles as globalStyles } from "@/styles/global";
-import { serverUrl } from "@/constants/env";
 import { debounce } from "lodash";
 import { useTheme } from "@react-navigation/native";
+import { useLazyGetBlogQuery } from "@/components/redux/apis/blogApi";
 
 const Blog: FC = () => {
+  const [query, setQuery] = useState({
+    page: 1,
+    limit: 5,
+  });
+
   const [quotesData, setQuotesData] = useState<QuotesInterfaceWithProfile[]>(
     []
   );
+
+  const [getBlogs, { isLoading }] = useLazyGetBlogQuery();
+
   const [loading, setLoading] = useState(false);
   const [startFrom, setStartFrom] = useState(0);
   const [hasMorePosts, setHasMorePosts] = useState(true);
@@ -29,72 +36,49 @@ const Blog: FC = () => {
   const { colors } = useTheme();
   const { setIsLoading } = useLoadingContext();
 
-  const onRefresh = async () => {
-    setLoading(true); // Set loading to true when refreshing starts
-    setRefresh(true);
-    setStartFrom(0); // Reset pagination
-    setQuotesData([]); // Clear previous data
-    await fetchMorePosts({ refreshValue: 0 }); // Fetch the first page
-    setLoading(false); // Set loading to false once fetching is done
-    setRefresh(false);
-  };
-
-  interface RefreshValue {
-    refreshValue: number;
-  }
-  const fetchMorePosts = async ({ refreshValue }: RefreshValue) => {
-    const url = `${serverUrl}/posts/get_posts?page=${
-      refreshValue == 0 ? refreshValue : startFrom
-    }&limit=5`;
-
+  const fetchMorePosts = async () => {
     try {
-      const response = await fetch(url, { method: "GET" });
+      getBlogs(query)
+        .unwrap()
+        .then((res) => {
+          setQuotesData((prev) => {
+            const newQuotes =
+              res?.quotes?.filter(
+                (quote) =>
+                  !prev.some(
+                    (existingQuote) => existingQuote.quoteId === quote.quoteId
+                  )
+              ) || [];
 
-      if (response.ok) {
-        const data: PostResponseConfig = await response.json();
-        const { quotes } = data;
-
-        if (quotes && quotes.length > 0) {
-          // Filter out duplicates before updating state
-          setQuotesData((prevData) => {
-            const newQuotes = quotes.filter(
-              (quote) =>
-                !prevData.some(
-                  (existingQuote) => existingQuote.quoteId === quote.quoteId
-                )
-            );
-            return [...prevData, ...newQuotes];
+            return [...prev, ...newQuotes];
           });
-
-          setStartFrom((prev) => prev + 1);
-        } else {
-          setHasMorePosts(false);
-        }
-      } else {
-        console.error("Failed to fetch more posts");
-        setHasMorePosts(false);
-      }
+        });
     } catch (error) {
       console.error("Error fetching more posts:", error);
     }
   };
 
   const debouncedFunction = debounce(async () => {
-    await fetchMorePosts({ refreshValue: 1 });
-    setLoading(false);
-  }, 2000);
+    setQuery((prev) => ({
+      ...prev,
+      page: prev.page + 1,
+    }));
+  }, 1000);
 
   const triggerMorePosts = async () => {
-    if (loading || !hasMorePosts) return; // Prevent multiple requests
-    setLoading(true); // Set loading as soon as debounce starts
+    if (isLoading || !hasMorePosts) return; // Prevent multiple requests
     debouncedFunction();
+  };
+
+  const onRefresh = () => {
+    setQuery({ page: 1, limit: 5 });
   };
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       //await
-        fetchMorePosts({ refreshValue: 1 }); // Waits for posts to load
+      fetchMorePosts(); // Waits for posts to load
       setIsLoading(false);
     };
 
@@ -102,7 +86,7 @@ const Blog: FC = () => {
   }, []);
 
   const renderFooter = () => {
-    if (!loading) return null;
+    if (!isLoading) return null;
 
     return (
       <View style={styles.footer}>

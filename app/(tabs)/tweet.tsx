@@ -1,23 +1,24 @@
-import { useUserContext } from "@/components/context/usercred_context";
-import { ResponseConfig } from "@/components/interfaces";
 import React, { useState } from "react";
 import { View, Text, Button } from "react-native";
 import { TextInput } from "react-native-paper";
-import { serverUrl } from "@/constants/env";
 import { useTheme } from "@react-navigation/native";
 import { useLoadingContext } from "@/components/context/loading_context";
-import { useReplyContext } from "@/components/context/reply_context";
 import { router } from "expo-router";
 import { styles } from "@/styles/tweet.css";
+import { useCreatePostMutation } from "@/components/redux/apis/postsApi";
+import { useAuth } from "@/components/redux/authSlice";
+import Toast from "react-native-toast-message";
 
 export default function TabTwoScreen() {
   const [quote, setQuote] = useState("");
   const [author, setAuthor] = useState("");
   const [inputHeight, setInputHeight] = useState(50);
-  const { userCred } = useUserContext();
   const { colors } = useTheme();
+
+  const { data: userCred } = useAuth();
   const { isLoading, setIsLoading } = useLoadingContext();
-  const { setReply } = useReplyContext();
+
+  const [createPost] = useCreatePostMutation();
 
   const handleInput = (label: string, text: string) => {
     if (label === "quote" && text.length <= 280) {
@@ -34,35 +35,21 @@ export default function TabTwoScreen() {
   };
 
   const handleSubmit = async () => {
-    if (author.trim() && quote.trim() && userCred) {
-      setIsLoading(true);
-      console.log(author, quote);
+    if (author.trim() && quote.trim()) {
       const data = {
-        userId: userCred.userId,
         quote: quote,
         author: author,
         username: userCred.username,
       };
-      console.log(data);
-      const response = await fetch(`${serverUrl}/posts/create_tweet`, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      setIsLoading(false);
-      const res = (await response.json()) as ResponseConfig;
-      console.log(res);
-      if (res) {
-        setReply(res.message);
-        if (res.status == 200) {
+      createPost({ ...data })
+        .unwrap()
+        .then((res) => {
+          Toast.show({ type: "success", text1: res.message });
           handleResetState();
-          router.push("/(tabs)");
-        }
-      }
-    } else {
-      setReply("Fields missing");
+        })
+        .catch((err) => {
+          Toast.show({ type: "error", text1: err.message || err.data.message });
+        });
     }
   };
 
