@@ -25,11 +25,15 @@ export const authApi = api.injectEndpoints({
         body,
       }),
     }),
-    refreshToken: builder.query<AuthResponseConfig, string>({
-      query: (id) => {
+    refreshToken: builder.mutation<
+      AuthResponseConfig,
+      { refreshToken: string }
+    >({
+      query: (payload) => {
         return {
-          url: `auth/refresh/${id}`,
-          method: "GET",
+          url: `auth/refresh`,
+          method: "POST",
+          body: payload,
         };
       },
     }),
@@ -37,4 +41,4 @@ export const authApi = api.injectEndpoints({
   overrideExisting: false, // keep other endpoints safe
 });
 
-export const { useLoginMutation ,useRefreshTokenQuery,useLazyRefreshTokenQuery} = authApi;
+export const { useLoginMutation, useRefreshTokenMutation } = authApi;

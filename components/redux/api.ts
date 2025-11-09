@@ -4,6 +4,7 @@ import { RootState } from "./store";
 // Define a service using a base URL and expected endpoints
 
 const url = "https://collab-quotes-server.vercel.app/";
+// const url="http://localhost:3000"
 
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: url,
@@ -11,11 +12,9 @@ const rawBaseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState }) => {
     const state = getState() as RootState;
     const token = state.auth.accessToken;
-
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
-
     return headers;
   },
 });

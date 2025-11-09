@@ -47,6 +47,7 @@ const Login: FC = () => {
       .then((res) => {
         console.log(res);
         Toast.show({ type: "success", text1: res.message });
+        router.push('/(tabs)')
       })
       .catch((err) => {
          console.log(err);

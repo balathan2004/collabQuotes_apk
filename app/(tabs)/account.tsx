@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, ActivityIndicator } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { styles } from "@/styles/profile";
 import { styles as global_style } from "@/styles/global";
@@ -21,6 +21,8 @@ const ProfileScreen = () => {
   return (
     <ScrollView>
       <View style={global_style.container}>
+        {isLoading &&<ActivityIndicator  />}
+        
         <Text style={[styles.centerText, { color: colors.text }]}>
           Your Profile
         </Text>

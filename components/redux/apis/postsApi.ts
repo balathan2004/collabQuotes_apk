@@ -28,9 +28,9 @@ export const postApi = api
         invalidatesTags: ["profile"],
       }),
 
-      deletePost: builder.mutation<ResponseConfig, { postId: string }>({
-        query: ({ postId }) => ({
-          url: `posts?quoteId=${postId}`,
+      deletePost: builder.mutation<ResponseConfig, { quoteId: string }>({
+        query: ({ quoteId }) => ({
+          url: `posts?quoteId=${quoteId}`,
           method: "DELETE",
         }),
         invalidatesTags: ["profile"],

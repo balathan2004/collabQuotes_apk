@@ -3,26 +3,27 @@ import { useEffect } from "react";
 import { getRefreshToken } from "@/components/cred";
 import { router } from "expo-router";
 import { styles as globalStyles } from "@/styles/global";
-import { useLazyRefreshTokenQuery, useRefreshTokenQuery } from "@/components/redux/apis/authApi";
+import { useRefreshTokenMutation } from "@/components/redux/apis/authApi";
 const image = require("../assets/images/index.png");
 
 const ProfileScreen = () => {
-  useEffect(() => {
-    const SetContext = async () => {
-      const data = await getRefreshToken("refreshToken");
+  const [getAccessToken, { isLoading }] = useRefreshTokenMutation();
 
-      console.log("data", { data });
-      if (!data) {
+  useEffect(() => {
+    const getCred = async () => {
+      const refreshToken = await getRefreshToken("refreshToken");
+
+      console.log("refreshToken", { refreshToken });
+      if (!refreshToken) {
         router.push("/(auth)/login");
         return;
       }
-      await refreshToken(data)
+      await getAccessToken({ refreshToken });
       router.push("/(tabs)");
+      return;
     };
-    SetContext();
+    getCred();
   }, []);
-
-  const [refreshToken]=useLazyRefreshTokenQuery()
 
   return (
     <View style={globalStyles.container}>

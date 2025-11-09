@@ -1,6 +1,6 @@
 // api/authApi.ts
 import { api } from "../api";
-import { ProfileResponseCofig } from "../../interfaces";
+import { ProfileResponseCofig, ResponseConfig } from "../../interfaces";
 
 export const profileApi = api
   .enhanceEndpoints({ addTagTypes: ["profile"] })
@@ -23,4 +23,4 @@ export const profileApi = api
     overrideExisting: false, // keep other endpoints safe
   });
 
-export const { useGetUserQuotesQuery,useGetProfileByIdQuery } = profileApi;
+export const { useGetUserQuotesQuery, useGetProfileByIdQuery } = profileApi;
